@@ -54,7 +54,8 @@ Use g to change the value of gravity
     too large values for g will produce inaccurate results, although generally skewed towards more false chaos
           it is recommended not to tweak the g value, as the desired changes to the graph can generally be achieved by tweaking dt or totalTime
 
-Use safe_color to change the rgb value used to represent pendulums which do not flip
+Use safe_color to change the rgb (255) value used to represent pendulums which do not flip
+    it is recommended to keep this value greyscale to not makes the chaotic pendulums on the graph easier to read
 
 The printout can be toggled using do_printout
     if enabled the printout will print the progress of the program in %
