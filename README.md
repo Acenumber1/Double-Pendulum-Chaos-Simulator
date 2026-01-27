@@ -1,10 +1,10 @@
 # Double-Pendulum-Chaos-Simulator
-Graph of the chaos of double pendulums
 
 
 
 
 IT IS HIGHLY RECOMMENDED TO RUN THIS ON A PROGRAM THAT RUNS ON YOUR COMPUTER, RATHER THAN ON WEB
+
 
 Generates a graph
 	
