@@ -2,10 +2,11 @@
 Graph of the chaos of double pendulums
 
 
+
+
 IT IS HIGHLY RECOMMENDED TO RUN THIS ON A PROGRAM THAT RUNS ON YOUR COMPUTER, RATHER THAN ON WEB
 
 Generates a graph
-	
 	x=theta2, y=theta1, color represents the time until chaos
         the color is proportional to how long it takes for a pendulum to fall into chaos
             using hsl hue values
