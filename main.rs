@@ -56,9 +56,8 @@ fn simulate_pendulum(theta1_init: f32, theta2_init: f32) -> f32 {
 
     // hoisted constants
     let g = G as f32;
-
-    for k in 0..STEPS {
-        // EARLY EXIT — avoids trig when already flipped
+    let mut k = 0;
+    while k + 1 < STEPS {
         if theta2.abs() >= FLIP_THRESHOLD {
             return k as f32 * DT;
         }
@@ -66,9 +65,8 @@ fn simulate_pendulum(theta1_init: f32, theta2_init: f32) -> f32 {
         let d = theta1 - theta2;
         let (s, c) = d.sin_cos();
 
-        let sin1 = theta1.sin();
-        let sin2 = theta2.sin();
-        let cos1 = theta1.cos();
+        let (sin1, cos1) = theta1.sin_cos();
+        let sin2 = sin1*c-cos1*s;
 
         let omega1s = omega1 * omega1;
         let omega2s = omega2 * omega2;
@@ -84,6 +82,35 @@ fn simulate_pendulum(theta1_init: f32, theta2_init: f32) -> f32 {
         omega2 += alpha2 * DT;
         theta1 += omega1 * DT;
         theta2 += omega2 * DT;
+	
+
+	
+	if theta2.abs() >= FLIP_THRESHOLD {
+            return (k+1) as f32 * DT;
+        }
+
+        let d = theta1 - theta2;
+        let (s, c) = d.sin_cos();
+
+        let (sin1, cos1) = theta1.sin_cos();
+        let sin2 = sin1*c-cos1*s;
+
+        let omega1s = omega1 * omega1;
+        let omega2s = omega2 * omega2;
+
+        let denom = 2.0 - c * c;
+
+        let alpha1 =
+            (-g * (2.0 * sin1 - sin2 * c) - s * (omega2s + omega1s * c)) / denom;
+        let alpha2 =
+            (2.0 * s * (omega1s + g * cos1 + omega2s * c)) / denom;
+
+        omega1 += alpha1 * DT;
+        omega2 += alpha2 * DT;
+        theta1 += omega1 * DT;
+        theta2 += omega2 * DT;
+	
+	k += 2;
     }
 
     -1.0
@@ -124,7 +151,7 @@ fn generate_chaos_map(
                     row[idx..idx + 3].copy_from_slice(&SAFE_COLOR);
                 } else {
 		    let n = flip_time / TOTAL_TIME;
-                    let normalized = 1.0-(1.0-n).powi(2);
+                    let normalized = 1.0-(1.0-n)*(1.0-n);
         	    let lut_index = (normalized * (COLOR_LUT.len() - 1) as f32) as usize;
     		    row[idx..idx + 3].copy_from_slice(&COLOR_LUT[lut_index]);
                 }
