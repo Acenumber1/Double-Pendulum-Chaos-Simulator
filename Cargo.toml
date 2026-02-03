@@ -1,9 +1,13 @@
 [package]
-name = "Cargo"
+name = "chaos_map"
 version = "0.1.0"
-edition = "2024"
+edition = "2021"
 
 [dependencies]
-rayon = "1.8"
-image = "0.24"
-lazy_static = "1.4"
+ctru = { git = "https://github.com/devkitPro/ctru-rs.git" }
+libm = "0.2"
+
+[profile.release]
+opt-level = "z"
+lto = true
+panic = "abort"
